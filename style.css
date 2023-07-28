@@ -17,3 +17,21 @@ html {
     font-size: 40px;
    
   }
+
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .cell {
+    display: flex;
+    border: 1px solid gray;
+    min-width: 30px;
+    min-height: 40px;
+  }
+
+  .cell.show {
+    visibility: visible;
+    background: url('/marker.jpg')center;
+  }
