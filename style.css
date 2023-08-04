@@ -35,3 +35,10 @@ html {
     visibility: visible;
     background: url('/marker.jpg')center;
   }
+
+  .buttons {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+  }
