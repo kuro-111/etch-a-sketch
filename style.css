@@ -1,3 +1,7 @@
+* {
+  box-sizing: border-box;
+}
+
 html {
     font-size: 14px;
     background: url('https://media.istockphoto.com/id/510634369/photo/blank-white-spiral-notebook.jpg?s=612x612&w=0&k=20&c=ip52bfTGPFIayV5Z3YhPPLnzPfcr0FC2muiPkZdAPnw=') center;
@@ -18,17 +22,26 @@ html {
    
   }
 
+  body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
+
   .container {
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 70vh;
+    width: 50%;
+    margin-top: 20px;
   }
 
   .cell {
     display: flex;
     border: 1px solid gray;
-    min-width: 30px;
-    min-height: 40px;
   }
 
   .cell.show {
