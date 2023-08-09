@@ -57,14 +57,18 @@ container.addEventListener("mouseup", (event) => {
      currClicking = false;
 });
 
-const boxes = document.querySelectorAll(".cell");
-boxes.forEach((box) => {
+function draw(box, color) {
      box.ondragstart = () => false;
      container.addEventListener("mousemove", (event) => {
           if (currClicking === true) {
-               event.target.classList.add("show");
+               event.target.style.backgroundColor = color;
           }
      });
+}
+
+const boxes = document.querySelectorAll(".cell");
+boxes.forEach((box) => {
+     draw(box, "black");
 });
 
 //resize grid
@@ -73,6 +77,14 @@ resize.addEventListener("click", (event) => {
      let resizeInputRows = prompt("Rows: (under 100)");
      let resizeInputColumn = prompt("Columns: (under 100)");
 
+     if (resizeInputRows > 100 || resizeInputColumn > 100) {
+          alert("Invalid input");
+          return;
+     } else if (resizeInputColumn <= 0 || resizeInputRows <= 0) {
+          alert("Invalid");
+          return;
+     }
+
      // Get rid of old grid
      container.innerHTML = null;
 
@@ -80,4 +92,21 @@ resize.addEventListener("click", (event) => {
      makeColumns(resizeInputColumn);
 
      boxes;
+});
+
+//reset grid
+const reset = document.querySelector(".reset");
+reset.addEventListener("click", (event) => {
+     boxes.forEach((boxR) => {
+          boxR.style.backgroundColor = "transparent";
+     });
+});
+
+//Change color
+const colorPicker = document.getElementById("color-picker");
+
+colorPicker.addEventListener("input", (eventColor) => {
+     boxes.forEach((box) => {
+          draw(box, eventColor.target.value);
+     });
 });
