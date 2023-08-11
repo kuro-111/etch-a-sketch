@@ -1,13 +1,18 @@
-/*make div boxes to fit 16x16 exclusively in js */
-
 //set variables
+let boxes = null;
 const container = document.querySelector(".container");
 const body = document.querySelector("body");
 const rows = document.getElementsByClassName("div");
 const columns = document.getElementsByClassName("div");
 let currClicking = false;
+const resize = document.querySelector(".resize");
+const reset = document.querySelector(".reset");
+const colorPicker = document.getElementById("color-picker");
+const rainB = document.querySelector(".rainB");
+const owo = document.querySelector(".special");
+
 //make box
-let defaultSize = true;
+
 function gridDefault() {
      makeRows(16);
      makeColumns(16);
@@ -42,21 +47,6 @@ function makeColumns(cellNum) {
      }
 }
 
-gridDefault();
-
-//make hover effect
-body.addEventListener("mouseup", (event) => {
-     currClicking = false;
-});
-
-container.addEventListener("mousedown", (event) => {
-     currClicking = true;
-});
-
-container.addEventListener("mouseup", (event) => {
-     currClicking = false;
-});
-
 function draw(box, color) {
      box.ondragstart = () => false;
      container.addEventListener("mousemove", (event) => {
@@ -66,14 +56,7 @@ function draw(box, color) {
      });
 }
 
-const boxes = document.querySelectorAll(".cell");
-boxes.forEach((box) => {
-     draw(box, "black");
-});
-
-//resize grid
-const resize = document.querySelector(".resize");
-resize.addEventListener("click", (event) => {
+function resizeGrid(event) {
      let resizeInputRows = prompt("Rows: (under 100)");
      let resizeInputColumn = prompt("Columns: (under 100)");
 
@@ -91,22 +74,65 @@ resize.addEventListener("click", (event) => {
      makeRows(resizeInputRows);
      makeColumns(resizeInputColumn);
 
-     boxes;
-});
+     boxes = document.querySelectorAll(".cell");
+}
 
-//reset grid
-const reset = document.querySelector(".reset");
-reset.addEventListener("click", (event) => {
-     boxes.forEach((boxR) => {
-          boxR.style.backgroundColor = "transparent";
+function rainbowDraw(box) {
+     box.ondragstart = () => false;
+     container.addEventListener("mousemove", (event) => {
+          if (currClicking === true) {
+               let rgb = "#" + Math.random().toString(16).substr(-6);
+               event.target.style.backgroundColor = rgb;
+          }
      });
-});
+}
 
-//Change color
-const colorPicker = document.getElementById("color-picker");
+function init() {
+     gridDefault();
 
-colorPicker.addEventListener("input", (eventColor) => {
+     //make hover effect
+     body.addEventListener("mouseup", (event) => {
+          currClicking = false;
+     });
+
+     container.addEventListener("mousedown", (event) => {
+          currClicking = true;
+     });
+
+     container.addEventListener("mouseup", (event) => {
+          currClicking = false;
+     });
+
+     boxes = document.querySelectorAll(".cell");
      boxes.forEach((box) => {
-          draw(box, eventColor.target.value);
+          draw(box, "black");
      });
-});
+
+     //resize grid
+     resize.addEventListener("click", (event) => {
+          resizeGrid(event);
+     });
+
+     //reset grid
+     reset.addEventListener("click", (event) => {
+          boxes.forEach((boxR) => {
+               boxR.style.backgroundColor = "transparent";
+          });
+     });
+
+     //Change color
+     colorPicker.addEventListener("input", (eventColor) => {
+          boxes.forEach((box) => {
+               draw(box, eventColor.target.value);
+          });
+     });
+
+     //rainbow mode
+     rainB.addEventListener("click", (event) => {
+          boxes.forEach((box) => {
+               rainbowDraw(box);
+          });
+     });
+}
+
+init();
